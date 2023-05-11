@@ -18,11 +18,7 @@ export default function FfmpegComponent(props) {
   // const loadable = !!window.SharedArrayBuffer;
   const [videoSrc, setVideoSrc] = useState('');
   const [videoPgress, setVideoPgress] = useState(null);
-  const [ffmpeg] = useState(
-    createFFmpeg({
-      log: false,
-    }),
-  );
+
   // console.log('loadable', loadable);
 
   // 파일 변경
@@ -33,6 +29,27 @@ export default function FfmpegComponent(props) {
   async function transcode({ target: { files } }) {
     console.time(`${resolution} 파일 변환 시간은?`);
     const { name, size } = files[0];
+    const ffmpeg = createFFmpeg({
+      log: true,
+    });
+    const outputName = 'result.mp4';
+    const encodingArgsArray =
+      `-map 0:V? -map 0:a? -map 0:s? -c:a libfdk_aac -vbr 5 -c:s mov_text -c:V libx264 -x264-params threads=11 -preset ultrafast -crf 25 -s ${resolution} ${outputName}`.split(
+        ' ',
+      );
+    // superfast ultrafast
+    const ffmpegArgs = [
+      '-i',
+      name,
+      '-metadata',
+      'encoded_by=av-converter.com',
+      '-id3v2_version',
+      '3',
+      '-write_id3v1',
+      'true',
+      ...encodingArgsArray,
+    ];
+
     console.log('files[0]', files[0]);
     console.log(`${resolution} bytesToSize`, bytesToSize(size));
     await ffmpeg.load();
@@ -40,9 +57,8 @@ export default function FfmpegComponent(props) {
       setVideoPgress(ratio < 0 ? 0 : Math.floor(ratio * 100)),
     );
     ffmpeg.FS('writeFile', name, await fetchFile(files[0]));
-    await ffmpeg.run('-i', name, '-s', resolution, `${name}.mp4`);
-    // await ffmpeg.run('-i', name, `${name}.mp4`);
-    const data = ffmpeg.FS('readFile', `${name}.mp4`);
+    await ffmpeg.run(...ffmpegArgs);
+    const data = ffmpeg.FS('readFile', `${outputName}`);
     const newFile = new File([data.buffer], name, { type: 'video/mp4' });
     console.log('newFile', newFile);
     setVideoSrc(URL.createObjectURL(newFile));
