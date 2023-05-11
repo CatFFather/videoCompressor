@@ -37,7 +37,8 @@ export default function FfmpegComponent(props) {
       `-map 0:V? -map 0:a? -map 0:s? -c:a libfdk_aac -vbr 5 -c:s mov_text -c:V libx264 -x264-params threads=11 -preset ultrafast -crf 25 -s ${resolution} ${outputName}`.split(
         ' ',
       );
-    // superfast ultrafast
+    // crf : 인코딩시 사용되는 품질 기준값 0~ 51 범위로 영상의 화질을 조절 0이 제일 높은 화질, 17,18이 영상의 화질과 비슷
+    // preset : 한 프레임을 만드는 데에 얼마나 CPU 자원을 사용할지 (느려질수록 같은 비트레이트에서 더 나은 품질) (superfast, ultrafast 등등)
     const ffmpegArgs = [
       '-i',
       name,
