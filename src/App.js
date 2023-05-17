@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import './App.css';
 import FfmpegComponent from './FfmpegComponent';
-import BrowserImageComp from './BrowserImageComp';
+import NodeFluentFfmpeg from './NodeFluentFfmpeg';
 // import MuxjsComponent from './MuxjsComponent';
 function App() {
-  const [page, setPage] = useState('FfmpegComponent');
+  const [page, setPage] = useState('NodeFluentFfmpeg');
   const onPageMove = (e) => {
     setPage(e?.target?.value);
   };
@@ -19,6 +19,11 @@ function App() {
         <input
           type="button"
           value="MuxjsComponent"
+          onClick={onPageMove}
+        ></input>
+        <input
+          type="button"
+          value="NodeFluentFfmpeg"
           onClick={onPageMove}
         ></input>
       </div>
@@ -39,10 +44,10 @@ function App() {
           {/* <MuxjsComponent resolution="1920x1080" /> */}
         </div>
       )}
-      {page === 'BrowserImageComp' && (
+      {page === 'NodeFluentFfmpeg' && (
         <div className="App">
-          <h1>BrowserImageComp</h1>
-          <BrowserImageComp />
+          <h1>NodeFluentFfmpeg</h1>
+          <NodeFluentFfmpeg />
         </div>
       )}
     </>

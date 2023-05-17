@@ -43,9 +43,11 @@ export default function FfmpegComponent(props) {
     await ffmpeg.run('-i', name, '-s', resolution, `${name}.mp4`);
     // await ffmpeg.run('-i', name, `${name}.mp4`);
     const data = ffmpeg.FS('readFile', `${name}.mp4`);
+    console.log('data', data);
     const newFile = new File([data.buffer], name, { type: 'video/mp4' });
     console.log('newFile', newFile);
     setVideoSrc(URL.createObjectURL(newFile));
+    console.log(URL.createObjectURL(newFile));
     console.log(`${resolution} bytesToSize`, bytesToSize(newFile.size));
     console.timeEnd(`${resolution} 파일 변환 시간은?`);
   }
