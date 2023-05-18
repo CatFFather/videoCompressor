@@ -4,7 +4,7 @@ import FfmpegComponent from './FfmpegComponent';
 import NodeFluentFfmpeg from './NodeFluentFfmpeg';
 // import MuxjsComponent from './MuxjsComponent';
 function App() {
-  const [page, setPage] = useState('NodeFluentFfmpeg');
+  const [page, setPage] = useState('FfmpegComponent');
   const onPageMove = (e) => {
     setPage(e?.target?.value);
   };
