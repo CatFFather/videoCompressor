@@ -37,6 +37,8 @@ const videoUpload = multer({
 
 app.put('/api/file-compress', async function (req, res) {
   const { url, fileName, resolution } = req.body;
+  if (!(url, fileName, resolution))
+    return res.json({ success: false, error: 'wrong body value' });
   const convertsUrl = 'uploads/converts/' + fileName;
   //완료된 파일들은 리소스 낭비하지않기위해 삭제
   const deleteVideo = () => {

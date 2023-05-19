@@ -58,15 +58,8 @@ export default function FfmpegComponent(props) {
       setVideoPgress(ratio < 0 ? 0 : Math.floor(ratio * 100)),
     );
     ffmpeg.FS('writeFile', name, await fetchFile(files[0]));
-<<<<<<< HEAD
     await ffmpeg.run(...ffmpegArgs);
     const data = ffmpeg.FS('readFile', `${outputName}`);
-=======
-    await ffmpeg.run('-i', name, '-s', resolution, `${name}.mp4`);
-    // await ffmpeg.run('-i', name, `${name}.mp4`);
-    const data = ffmpeg.FS('readFile', `${name}.mp4`);
-    console.log('data', data);
->>>>>>> csh
     const newFile = new File([data.buffer], name, { type: 'video/mp4' });
     console.log('newFile', newFile);
     setVideoSrc(URL.createObjectURL(newFile));
