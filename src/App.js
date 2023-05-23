@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import './App.css';
 import FfmpegComponent from './FfmpegComponent';
 import NodeFluentFfmpeg from './NodeFluentFfmpeg';
+import AwsMediaConverter from './AwsMediaConverter';
 // import MuxjsComponent from './MuxjsComponent';
 function App() {
-  const [page, setPage] = useState('FfmpegComponent');
+  const [page, setPage] = useState('AwsMediaConverter');
   const onPageMove = (e) => {
     setPage(e?.target?.value);
   };
@@ -24,6 +25,11 @@ function App() {
         <input
           type="button"
           value="NodeFluentFfmpeg"
+          onClick={onPageMove}
+        ></input>
+        <input
+          type="button"
+          value="AwsMediaConverter"
           onClick={onPageMove}
         ></input>
       </div>
@@ -48,6 +54,12 @@ function App() {
         <div className="App">
           <h1>NodeFluentFfmpeg</h1>
           <NodeFluentFfmpeg />
+        </div>
+      )}
+      {page === 'AwsMediaConverter' && (
+        <div className="App">
+          <h1>AwsMediaConverter</h1>
+          <AwsMediaConverter />
         </div>
       )}
     </>

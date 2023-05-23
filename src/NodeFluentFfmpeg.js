@@ -17,7 +17,7 @@ export default function NodeFluentFfmpeg() {
     try {
       //이미지 업로드
       const { url, fileName, originalName } = await fetch(
-        'http://localhost:8080/api/file-upload',
+        'http://localhost:8080/api/file/upload',
         {
           method: 'POST',
           body: formData,
@@ -25,17 +25,20 @@ export default function NodeFluentFfmpeg() {
       ).then((res) => res.json());
       if (!url) return;
       //파일 압축
-      const readFile = await fetch(`http://localhost:8080/api/file-compress`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
+      const readFile = await fetch(
+        `http://localhost:8080/api/file/video-compress`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            url,
+            fileName,
+            resolution,
+          }),
         },
-        body: JSON.stringify({
-          url,
-          fileName,
-          resolution,
-        }),
-      }).then((res) => res.json());
+      ).then((res) => res.json());
       const data = readFile.file.data;
       const uint8 = new Uint8Array(data);
       const newFile = new File([uint8], originalName, {
